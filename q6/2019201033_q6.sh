@@ -20,21 +20,25 @@ if [ $2 = "all" ]; then
 	for var in $(ls -ltr $string | grep -E "^\-.*" | grep -oE "[[:alnum:]]*$" ); do
 		#echo $var
 		mkdir -p $string/$var
+		mv $string/*.var $string/$var/
 	done
 	#echo "names of files"
-	for file in $( ls -ltr $string | grep -E "^\-.*" | grep -oE "[ ]{1}[[:alnum:]\.[:punct:]]*$" );
-	do
-		#echo -n $file
-		ext=$(echo $file | grep -oE "[[:alnum:]]*$")
-		#echo " with extension $ext"
-		mv $string/$file $string/$ext/$file
-	done
+	#for file in $( ls -A1 $string | grep -E "^\-.*" | grep -oE "[ ]{1}[[:alnum:]\.[:punct:]]*$" );
+	#do
+	#	echo -n $file
+	#	echo -n " "
+	#	ext=$(echo $file | grep -oE "[[:alnum:]]*$")
+	#	#echo " with extension $ext"
+		
+	#done
 	#file without extension
 	#if [ $(ls -ltr $1 | grep -E "^\-.*" | wc -l) -gt 0 ]; then
 	#	echo "files left"
 	#fi
 else
-	ftype=$2
-	mkdir -p $string/$ftype
-	mv $string/*.$ftype $string/$ftype/
+	for ftype in ${@:2};
+	do
+		mkdir -p $string/$ftype
+		mv $string/*.$ftype $string/$ftype/
+	done
 fi
