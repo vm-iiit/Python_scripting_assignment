@@ -2,7 +2,7 @@ filep=$1
 #echo $filep
 if [ ! -f "$filep" ];
 then
-	echo "invalid file"
+	echo "invalid file / not a file"
 else
 	info=$(file -b "$filep")
 	#echo $info
@@ -23,7 +23,7 @@ else
 	elif (( $(grep -ioE "image" <<< $info | wc -l)>0 ));
 	then
 		eog "$filep"
-	elif (( $(grep -ioE "image" <<< $info | wc -l)>0 ));
+	elif (( $(grep -ioE "PDF" <<< $info | wc -l)>0 ));
 	then
 		evince "$filep"
 	elif (( $(grep -ioE "composite|document" <<< $info | wc -l)>0 ));
@@ -32,5 +32,7 @@ else
 	elif (( $(grep -ioE "object" <<< $info | wc -l)>0 ));
 	then
 		./"$filep"
+	else
+		echo "can't find a suitable program to open the file"
 	fi
 fi
