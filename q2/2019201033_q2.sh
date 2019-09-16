@@ -11,8 +11,26 @@ else
 	if (( $(grep -ioE "Media|Audio" <<< $info | wc -l)>0 ));
 	then
 		vlc "$filep"
+	elif (( $(grep -ioE "zip|archive|compressed" <<< $info | wc -l)>0 ));
+	then
+		file-roller "$filep"
+	elif (( $(grep -ioE "html" <<< $info | wc -l)>0 ));
+	then
+		sensible-browser "$filep"
 	elif (( $(grep -ioE "source|text" <<< $info | wc -l)>0 ));
 	then
 		gedit "$filep"
+	elif (( $(grep -ioE "image" <<< $info | wc -l)>0 ));
+	then
+		eog "$filep"
+	elif (( $(grep -ioE "image" <<< $info | wc -l)>0 ));
+	then
+		evince "$filep"
+	elif (( $(grep -ioE "composite|document" <<< $info | wc -l)>0 ));
+	then
+		libreoffice "$filep"
+	elif (( $(grep -ioE "object" <<< $info | wc -l)>0 ));
+	then
+		./"$filep"
 	fi
 fi
